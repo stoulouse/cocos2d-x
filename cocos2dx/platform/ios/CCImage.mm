@@ -30,7 +30,7 @@ THE SOFTWARE.
 #import <UIKit/UIKit.h>
 
 #include<math.h>
-
+#include "CCConfiguration.h"
 
 typedef struct
 {
@@ -64,9 +64,19 @@ static bool _initWithImage(CGImageRef cgImage, tImageInfo *pImageinfo)
     }
     
     // get image info
+    float maxTextureSize = cocos2d::CCConfiguration::sharedConfiguration()->getMaxTextureSize();
+    float width = CGImageGetWidth(cgImage);
+    float height = CGImageGetHeight(cgImage);
+    if(width > maxTextureSize || height > maxTextureSize){
+        float ratio = MAX(width/maxTextureSize, height/maxTextureSize);
+        pImageinfo->width = width/ratio;
+        pImageinfo->height = height/ratio;
+    }
+    else{
+        pImageinfo->width = width;
+        pImageinfo->height = height;
+    }
     
-    pImageinfo->width = CGImageGetWidth(cgImage);
-    pImageinfo->height = CGImageGetHeight(cgImage);
     
     CGImageAlphaInfo info = CGImageGetAlphaInfo(cgImage);
     pImageinfo->hasAlpha = (info == kCGImageAlphaPremultipliedLast) 
@@ -113,6 +123,11 @@ static bool _initWithImage(CGImageRef cgImage, tImageInfo *pImageinfo)
                                                  colorSpace, 
                                                  info | kCGBitmapByteOrder32Big);
     
+	if (! context)
+	{
+		NSLog(@"context");
+	}
+	
     CGContextClearRect(context, CGRectMake(0, 0, pImageinfo->width, pImageinfo->height));
     //CGContextTranslateCTM(context, 0, 0);
     CGContextDrawImage(context, CGRectMake(0, 0, pImageinfo->width, pImageinfo->height), cgImage);

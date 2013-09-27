@@ -163,7 +163,8 @@ public:
     void setFontName(const char *fontName);
     
 private:
-    bool updateTexture();
+    virtual bool updateTexture();
+	
 protected:
     
     /** set the text definition for this label */

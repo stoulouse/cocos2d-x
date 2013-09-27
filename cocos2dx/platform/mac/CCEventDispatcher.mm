@@ -130,6 +130,9 @@ static int		eventQueueCount;
 
 - (void) dealloc
 {
+	[self removeAllKeyboardDelegates];
+	[self removeAllMouseDelegates];
+	[self removeAllTouchDelegates];
 	[super dealloc];
 }
 

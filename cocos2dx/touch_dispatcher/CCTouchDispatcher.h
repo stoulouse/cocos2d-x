@@ -170,6 +170,10 @@ public:
      * @lua NA
      */
     void setPriority(int nPriority, CCTouchDelegate *pDelegate);
+
+	void setPriorityToAllHandlers(int nPriority, CCArray* pArray);
+	void setPriorityToAllHandlers(int nPriority);
+	void rearrangeHandlers();
     /**
      * @lua NA
      */

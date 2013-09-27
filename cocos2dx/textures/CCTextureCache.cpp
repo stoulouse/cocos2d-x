@@ -622,7 +622,7 @@ void CCTextureCache::removeUnusedTextures()
         list<CCDictElement*> elementToRemove;
         CCDICT_FOREACH(m_pTextures, pElement)
         {
-            CCLOG("cocos2d: CCTextureCache: texture: %s", pElement->getStrKey());
+//            CCLOG("cocos2d: CCTextureCache: texture: %s", pElement->getStrKey());
             CCTexture2D *value = (CCTexture2D*)pElement->getObject();
             if (value->retainCount() == 1)
             {

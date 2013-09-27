@@ -330,12 +330,14 @@ static EAGLView *view;
     int ids[1] = {0};
     float xs[1] = {0.0f};
     float ys[1] = {0.0f};
+	int tapcounts[1] = {0};
     
 	ids[0] = [theEvent eventNumber];
 	xs[0] = x / frameZoomFactor_;
 	ys[0] = y / frameZoomFactor_;
+	tapcounts[0] = [theEvent clickCount];
 
-	cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesBegin(1, ids, xs, ys);
+	cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesBegin(1, ids, xs, ys, tapcounts);
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent
@@ -354,12 +356,14 @@ static EAGLView *view;
     int ids[1] = {0};
     float xs[1] = {0.0f};
     float ys[1] = {0.0f};
+	int tapcounts[1] = {0};
     
 	ids[0] = [theEvent eventNumber];
 	xs[0] = x / frameZoomFactor_;
 	ys[0] = y / frameZoomFactor_;
+	tapcounts[0] = [theEvent clickCount];
 
-	cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesMove(1, ids, xs, ys);
+	cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesMove(1, ids, xs, ys, tapcounts);
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
@@ -373,12 +377,14 @@ static EAGLView *view;
     int ids[1] = {0};
     float xs[1] = {0.0f};
     float ys[1] = {0.0f};
+	int tapcounts[1] = {0};
     
 	ids[0] = [theEvent eventNumber];
 	xs[0] = x / frameZoomFactor_;
 	ys[0] = y / frameZoomFactor_;
+	tapcounts[0] = [theEvent clickCount];
 
-	cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesEnd(1, ids, xs, ys);
+	cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesEnd(1, ids, xs, ys, tapcounts);
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {

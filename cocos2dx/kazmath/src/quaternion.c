@@ -419,6 +419,9 @@ kmQuaternion* kmQuaternionSlerp(kmQuaternion* pOut,
         kmScalar theta = acosf(ct);
         kmScalar st = sqrtf(1.0 - kmSQR(ct));
 
+		if (st == 0)
+			st = 1;
+		
         kmScalar stt = sinf(t * theta) / st;
         kmScalar somt = sinf((1.0 - t) * theta) / st;
 

@@ -56,23 +56,23 @@ static unsigned int nextPOT(unsigned int x)
 
 typedef enum {
     kCCTexture2DPixelFormat_Automatic = 0,
-        //! 32-bit texture: RGBA8888
+	//! 32-bit texture: RGBA8888
     kCCTexture2DPixelFormat_RGBA8888,
-        //! 24-bit texture: RGBA888
+	//! 24-bit texture: RGBA888
     kCCTexture2DPixelFormat_RGB888,
-        //! 16-bit texture without Alpha channel
+	//! 16-bit texture without Alpha channel
     kCCTexture2DPixelFormat_RGB565,
-        //! 8-bit textures used as masks
+	//! 8-bit textures used as masks
     kCCTexture2DPixelFormat_A8,
-        //! 16-bit textures: RGBA4444
+	//! 16-bit textures: RGBA4444
     kCCTexture2DPixelFormat_RGBA4444,
-        //! 16-bit textures: RGB5A1
-    kCCTexture2DPixelFormat_RGB5A1,    
+	//! 16-bit textures: RGB5A1
+    kCCTexture2DPixelFormat_RGB5A1,
     
-        //! Default texture format: RGBA8888
+	//! Default texture format: RGBA8888
     kCCTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_RGBA8888,
     
-        // backward compatibility stuff
+	// backward compatibility stuff
     kTexture2DPixelFormat_Automatic = kCCTexture2DPixelFormat_Automatic,
     kTexture2DPixelFormat_RGBA8888 = kCCTexture2DPixelFormat_RGBA8888,
     kTexture2DPixelFormat_RGB888 = kCCTexture2DPixelFormat_RGB888,
@@ -104,18 +104,18 @@ static bool _initPremultipliedATextureWithImage(CGImageRef image, NSUInteger POT
     size_t bpp = CGImageGetBitsPerComponent(image);
     colorSpace = CGImageGetColorSpace(image);
     
-    if(colorSpace) 
+    if(colorSpace)
     {
         if(hasAlpha || bpp >= 8)
         {
             pixelFormat = kCCTexture2DPixelFormat_Default;
         }
-        else 
+        else
         {
             pixelFormat = kCCTexture2DPixelFormat_RGB565;
         }
-    } 
-    else  
+    }
+    else
     {
         // NOTE: No colorspace means a mask image
         pixelFormat = kCCTexture2DPixelFormat_A8;
@@ -166,7 +166,7 @@ static bool _initPremultipliedATextureWithImage(CGImageRef image, NSUInteger POT
     
     // Repack the pixel data into the right format
     
-    if(pixelFormat == kCCTexture2DPixelFormat_RGB565) 
+    if(pixelFormat == kCCTexture2DPixelFormat_RGB565)
     {
         //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGGBBBBB"
         tempData = new unsigned char[POTHigh * POTWide * 2];
@@ -240,7 +240,7 @@ static bool _initWithImage(CGImageRef CGImage, tImageInfo *pImageinfo, double sc
 {
     NSUInteger POTWide, POTHigh;
     
-    if(CGImage == NULL) 
+    if(CGImage == NULL)
     {
         return false;
     }
@@ -251,12 +251,12 @@ static bool _initWithImage(CGImageRef CGImage, tImageInfo *pImageinfo, double sc
 		POTWide = CGImageGetWidth(CGImage) * scaleX;
 		POTHigh = CGImageGetHeight(CGImage) * scaleY;
 	}
-	else 
+	else
 	{
 		POTWide = CGImageGetWidth(CGImage);
 		POTHigh = CGImageGetHeight(CGImage);
 	}
-
+	
     
     // load and draw image
     return _initPremultipliedATextureWithImage(CGImage, POTWide, POTHigh, pImageinfo);
@@ -264,7 +264,7 @@ static bool _initWithImage(CGImageRef CGImage, tImageInfo *pImageinfo, double sc
 
 static bool _initWithFile(const char* path, tImageInfo *pImageinfo)
 {
-    CGImageRef                CGImage;    
+    CGImageRef                CGImage;
     NSImage                    *jpg;
     //NSImage                    *png;
     bool            ret;
@@ -283,7 +283,7 @@ static bool _initWithFile(const char* path, tImageInfo *pImageinfo)
     [jpg release];
     if (CGImage) CFRelease(CGImage);
     if (source) CFRelease(source);
-  
+	
     return ret;
 }
 
@@ -292,7 +292,7 @@ static bool _initWithData(void * pBuffer, int length, tImageInfo *pImageinfo, do
 {
     bool ret = false;
     
-    if (pBuffer) 
+    if (pBuffer)
     {
         CGImageRef CGImage;
         NSData *data;
@@ -311,12 +311,12 @@ static bool _initWithData(void * pBuffer, int length, tImageInfo *pImageinfo, do
 static bool _isValidFontName(const char *fontName)
 {
     bool ret = false;
-#if 0 
+#if 0
     NSString *fontNameNS = [NSString stringWithUTF8String:fontName];
     
-    for (NSString *familiName in [NSFont familyNames]) 
+    for (NSString *familiName in [NSFont familyNames])
     {
-        if ([familiName isEqualToString:fontNameNS]) 
+        if ([familiName isEqualToString:fontNameNS])
         {
             ret = true;
             goto out;
@@ -410,29 +410,29 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
 				string = lineBreak;
 			}
 		}
-
+		
 		NSAttributedString *stringWithAttributes =[[[NSAttributedString alloc] initWithString:string
-										 attributes:tokenAttributesDict] autorelease];
-				
+																				   attributes:tokenAttributesDict] autorelease];
+		
 		NSSize realDimensions = [stringWithAttributes size];
 		// Mac crashes if the width or height is 0
 		CC_BREAK_IF(realDimensions.width <= 0 || realDimensions.height <= 0);
-				
+		
 		CGSize dimensions = CGSizeMake(pInfo->width, pInfo->height);
 		
-	
+		
 		if(dimensions.width <= 0 && dimensions.height <= 0) {
 			dimensions.width = realDimensions.width;
 			dimensions.height = realDimensions.height;
 		} else if (dimensions.height <= 0) {
 			dimensions.height = realDimensions.height;
 		}
-
+		
 		NSUInteger POTWide = (NSUInteger)dimensions.width;
 		NSUInteger POTHigh = (NSUInteger)(MAX(dimensions.height, realDimensions.height));
 		unsigned char*			data;
 		//Alignment
-			
+		
 		CGFloat xPadding = 0;
 		switch (align) {
 			case NSLeftTextAlignment: xPadding = 0; break;
@@ -504,15 +504,15 @@ bool isFileExists(const char* szFilePath)
 	if (INVALID_FILE_ATTRIBUTES == dwFileAttr
 		|| (dwFileAttr&FILE_ATTRIBUTE_DIRECTORY))	{
 		return false;
-	}		
+	}
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	bool bFind = true;
-	do 
+	do
 	{
 		struct stat buf;
 		int n = stat(szFilePath, &buf);
 		if ((0 != n)
-			|| !(buf.st_mode&S_IFMT))	
+			|| !(buf.st_mode&S_IFMT))
 		{
 			bFind = false;
 		}
@@ -524,7 +524,7 @@ bool isFileExists(const char* szFilePath)
 		unzFile pFile = NULL;
 		unsigned long pSize = 0;
 		
-		do 
+		do
 		{
 			pFile = unzOpen(s_strAndroidPackagePath.c_str());
 			if(!pFile)break;
@@ -549,7 +549,7 @@ bool isFileExists(const char* szFilePath)
 	if ((0 != n)
 		|| !(buf.st_mode&S_IFMT))	{
 		return false;
-	}		
+	}
 	
 #endif
 	return true;
@@ -585,28 +585,28 @@ bool CCImage::initWithImageFile(const char * strPath, EImageFormat eImgFmt/* = e
 				{
 					strTemp.insert(t, "@2x");
 				}
-/*				CCSize size = CCDirector::sharedDirector()->getWinSize();		
-	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-				m_dScaleX = size.width/800.0f;
-				m_dScaleY = size.height/480.0f;
-	#else
-				m_dScaleX = size.width/960.0f;
-				m_dScaleY = size.height/640.0f;
-				
-	#endif
-*/
+				/*				CCSize size = CCDirector::sharedDirector()->getWinSize();
+				 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+				 m_dScaleX = size.width/800.0f;
+				 m_dScaleY = size.height/480.0f;
+				 #else
+				 m_dScaleX = size.width/960.0f;
+				 m_dScaleY = size.height/640.0f;
+				 
+				 #endif
+				 */
 			}
-		}    
+		}
 		else
 		{
-//			m_dScaleX = 1.0;
-//			m_dScaleY = 1.0;
+			//			m_dScaleX = 1.0;
+			//			m_dScaleY = 1.0;
 		}
 	}
 	
-//	CCFileData tempData(strTemp.c_str(), "rb");			
-//	return initWithImageData(tempData.getBuffer(), tempData.getSize(), eImgFmt);
-
+	//	CCFileData tempData(strTemp.c_str(), "rb");
+	//	return initWithImageData(tempData.getBuffer(), tempData.getSize(), eImgFmt);
+	
 	unsigned long fileSize = 0;
 	unsigned char* pFileData = CCFileUtils::sharedFileUtils()->getFileData(strTemp.c_str(), "rb", &fileSize);
 	bool ret = initWithImageData(pFileData, fileSize, eImgFmt);
@@ -885,12 +885,12 @@ bool CCImage::_initWithRawData(void *pData, int nDatalen, int nWidth, int nHeigh
 }
 
 bool CCImage::initWithString(
-	const char *    pText, 
-	int             nWidth, 
-	int             nHeight,
-	ETextAlign      eAlignMask,
-	const char *    pFontName,
-	int             nSize)
+							 const char *    pText,
+							 int             nWidth,
+							 int             nHeight,
+							 ETextAlign      eAlignMask,
+							 const char *    pFontName,
+							 int             nSize)
 {
     tImageInfo info = {0};
     info.width = nWidth;
@@ -909,7 +909,7 @@ bool CCImage::initWithString(
 		CC_SAFE_DELETE_ARRAY(m_pData);
 	}
     m_pData = info.data;
-
+	
     return true;
 }
 

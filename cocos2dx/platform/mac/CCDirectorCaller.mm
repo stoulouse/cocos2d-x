@@ -51,6 +51,19 @@ static id s_sharedDirectorCaller;
 	return s_sharedDirectorCaller;
 }
 
++(void) destroy
+{
+	if (((CCDirectorCaller*)s_sharedDirectorCaller)->displayLink) {
+			CVDisplayLinkRelease(((CCDirectorCaller*)s_sharedDirectorCaller)->displayLink);
+			((CCDirectorCaller*)s_sharedDirectorCaller)->displayLink = 0;
+		}
+	if (((CCDirectorCaller*)s_sharedDirectorCaller)->renderTimer) {
+			[((CCDirectorCaller*)s_sharedDirectorCaller)->renderTimer invalidate];
+			((CCDirectorCaller*)s_sharedDirectorCaller)->renderTimer = nil;
+		}
+ 	[s_sharedDirectorCaller release];
+}
+
 -(void) alloc
 {
     interval = 1;

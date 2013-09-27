@@ -118,6 +118,7 @@ CCPoolManager::~CCPoolManager()
  
      // we only release the last autorelease pool here 
     m_pCurReleasePool = 0;
+	if (m_pReleasePoolStack->count() > 0)
      m_pReleasePoolStack->removeObjectAtIndex(0);
  
      CC_SAFE_DELETE(m_pReleasePoolStack);

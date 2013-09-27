@@ -111,30 +111,30 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 	// Methods
 	// ===========================================================
 
-	private static native void nativeTouchesBegin(final int pID, final float pX, final float pY);
-	private static native void nativeTouchesEnd(final int pID, final float pX, final float pY);
-	private static native void nativeTouchesMove(final int[] pIDs, final float[] pXs, final float[] pYs);
-	private static native void nativeTouchesCancel(final int[] pIDs, final float[] pXs, final float[] pYs);
+	private static native void nativeTouchesBegin(final int pID, final float pX, final float pY, int tapcount);
+	private static native void nativeTouchesEnd(final int pID, final float pX, final float pY, int tapcount);
+	private static native void nativeTouchesMove(final int[] pIDs, final float[] pXs, final float[] pYs, int[] tapcount);
+	private static native void nativeTouchesCancel(final int[] pIDs, final float[] pXs, final float[] pYs, int[] tapcount);
 	private static native boolean nativeKeyDown(final int pKeyCode);
 	private static native void nativeRender();
 	private static native void nativeInit(final int pWidth, final int pHeight);
 	private static native void nativeOnPause();
 	private static native void nativeOnResume();
 
-	public void handleActionDown(final int pID, final float pX, final float pY) {
-		Cocos2dxRenderer.nativeTouchesBegin(pID, pX, pY);
+	public void handleActionDown(final int pID, final float pX, final float pY, int tapcount) {
+		Cocos2dxRenderer.nativeTouchesBegin(pID, pX, pY, tapcount);
 	}
 
-	public void handleActionUp(final int pID, final float pX, final float pY) {
-		Cocos2dxRenderer.nativeTouchesEnd(pID, pX, pY);
+	public void handleActionUp(final int pID, final float pX, final float pY, int tapcount) {
+		Cocos2dxRenderer.nativeTouchesEnd(pID, pX, pY, tapcount);
 	}
 
-	public void handleActionCancel(final int[] pIDs, final float[] pXs, final float[] pYs) {
-		Cocos2dxRenderer.nativeTouchesCancel(pIDs, pXs, pYs);
+	public void handleActionCancel(final int[] pIDs, final float[] pXs, final float[] pYs, int[] tapcount) {
+		Cocos2dxRenderer.nativeTouchesCancel(pIDs, pXs, pYs, tapcount);
 	}
 
-	public void handleActionMove(final int[] pIDs, final float[] pXs, final float[] pYs) {
-		Cocos2dxRenderer.nativeTouchesMove(pIDs, pXs, pYs);
+	public void handleActionMove(final int[] pIDs, final float[] pXs, final float[] pYs, int[] tapcount) {
+		Cocos2dxRenderer.nativeTouchesMove(pIDs, pXs, pYs, tapcount);
 	}
 
 	public void handleKeyDown(final int pKeyCode) {

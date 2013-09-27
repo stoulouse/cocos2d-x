@@ -1069,6 +1069,8 @@ void CCDisplayLinkDirector::mainLoop(void)
     {
         m_bPurgeDirecotorInNextLoop = false;
         purgeDirector();
+		delete this;
+		s_SharedDirector = 0;
     }
     else if (! m_bInvalid)
      {

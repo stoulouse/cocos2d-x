@@ -290,9 +290,34 @@ CCTouchHandler* CCTouchDispatcher::findHandler(CCArray* pArray, CCTouchDelegate 
     return NULL;
 }
 
+void CCTouchDispatcher::setPriorityToAllHandlers(int nPriority, CCArray* pArray) {
+    CCAssert(pArray != NULL, "");
+	
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(pArray, pObj)
+    {
+        CCTouchHandler* pHandle = (CCTouchHandler*)pObj;
+		pHandle->setPriority(nPriority);
+		if (!pHandle->getDelegate()) {
+			CCLOG("pHandle with not delegate: %p\n", pHandle);
+		}
+    }
+}
+
+void CCTouchDispatcher::setPriorityToAllHandlers(int nPriority) {
+	this->setPriorityToAllHandlers(nPriority, m_pTargetedHandlers);
+	this->setPriorityToAllHandlers(nPriority, m_pStandardHandlers);
+}
+
 void CCTouchDispatcher::rearrangeHandlers(CCArray *pArray)
 {
     std::sort(pArray->data->arr, pArray->data->arr + pArray->data->num, less);
+}
+
+void CCTouchDispatcher::rearrangeHandlers()
+{
+	this->rearrangeHandlers(m_pTargetedHandlers);
+	this->rearrangeHandlers(m_pStandardHandlers);
 }
 
 void CCTouchDispatcher::setPriority(int nPriority, CCTouchDelegate *pDelegate)

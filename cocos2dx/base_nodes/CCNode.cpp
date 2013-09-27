@@ -1226,9 +1226,12 @@ CCAffineTransform CCNode::nodeToWorldTransform()
 {
     CCAffineTransform t = this->nodeToParentTransform();
 
-    for (CCNode *p = m_pParent; p != NULL; p = p->getParent())
+    for (CCNode *p = m_pParent; p != NULL; p = p->getParent()) {
         t = CCAffineTransformConcat(t, p->nodeToParentTransform());
+	}
 
+    CCAssert( !isnan(t.tx) && !isnan(t.ty), "transform error");
+	
     return t;
 }
 
