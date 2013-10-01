@@ -461,8 +461,16 @@ bool CCScale9Sprite::initWithFile(const char* file, CCRect rect,  CCRect capInse
 {
     CCAssert(file != NULL, "Invalid file for sprite");
     
-    CCSpriteBatchNode *batchnode = CCSpriteBatchNode::create(file, 9);
-    bool pReturn = this->initWithBatchNode(batchnode, rect, capInsets);
+	bool pReturn = false;
+	
+    CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(file);
+	if (frame) {
+		pReturn = this->initWithSpriteFrame(frame, capInsets);
+	} else {
+		CCSpriteBatchNode *batchnode = CCSpriteBatchNode::create(file, 9);
+		pReturn = this->initWithBatchNode(batchnode, rect, capInsets);
+	}
+	
     return pReturn;
 }
 

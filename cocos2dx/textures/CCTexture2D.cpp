@@ -284,7 +284,7 @@ bool CCTexture2D::initWithImage(CCImage *uiImage)
     CCConfiguration *conf = CCConfiguration::sharedConfiguration();
     
     unsigned maxTextureSize = conf->getMaxTextureSize();
-    if (imageWidth > maxTextureSize || imageHeight > maxTextureSize) 
+    if (maxTextureSize > 0 && (imageWidth > maxTextureSize || imageHeight > maxTextureSize))
     {
         CCLOG("cocos2d: WARNING: Image (%u x %u) is bigger than the supported %u x %u", imageWidth, imageHeight, maxTextureSize, maxTextureSize);
         return false;

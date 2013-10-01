@@ -33,5 +33,8 @@ THE SOFTWARE.
 #include "CCControlSlider.h"
 #include "CCControlStepper.h"
 #include "CCControlSwitch.h"
+#include "CCControlPicker.h"
+
+USING_NS_CC_EXT;
 
 #endif

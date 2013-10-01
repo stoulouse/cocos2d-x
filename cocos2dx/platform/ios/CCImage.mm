@@ -65,6 +65,7 @@ static bool _initWithImage(CGImageRef cgImage, tImageInfo *pImageinfo)
     
     // get image info
     float maxTextureSize = cocos2d::CCConfiguration::sharedConfiguration()->getMaxTextureSize();
+	maxTextureSize = (maxTextureSize > 0 ? maxTextureSize : FLT_MAX);
     float width = CGImageGetWidth(cgImage);
     float height = CGImageGetHeight(cgImage);
     if(width > maxTextureSize || height > maxTextureSize){
