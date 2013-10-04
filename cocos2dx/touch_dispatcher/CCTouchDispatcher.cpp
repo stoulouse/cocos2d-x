@@ -118,7 +118,7 @@ void CCTouchDispatcher::forceAddHandler(CCTouchHandler *pHandler, CCArray *pArra
  
              if (h->getDelegate() == pHandler->getDelegate())
              {
-                 CCAssert(0, "");
+//                 CCAssert(0, "");
                  return;
              }
          }

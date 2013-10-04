@@ -492,4 +492,25 @@ static EAGLView *view;
 {
 	DISPATCH_EVENT(theEvent, _cmd);
 }
+
+- (void)beginGestureWithEvent:(NSEvent *)event {
+	DISPATCH_EVENT(event, _cmd);
+}
+
+- (void)endGestureWithEvent:(NSEvent *)event {
+	DISPATCH_EVENT(event, _cmd);
+}
+
+- (void)magnifyWithEvent:(NSEvent *)event {
+	DISPATCH_EVENT(event, _cmd);
+}
+
+- (void)rotateWithEvent:(NSEvent *)event {
+	DISPATCH_EVENT(event, _cmd);
+}
+
+- (void)swipeWithEvent:(NSEvent *)event {
+	DISPATCH_EVENT(event, _cmd);
+}
+
 @end

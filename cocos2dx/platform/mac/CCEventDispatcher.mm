@@ -30,6 +30,7 @@
 #import "CCEventDispatcher.h"
 #import "ccConfig.h"
 #include "support/data_support/utlist.h"
+#include "CCEGLView.h"
 
 //NS_CC_BEGIN;
 static CCEventDispatcher *sharedDispatcher = nil;
@@ -609,6 +610,83 @@ static int		eventQueueCount;
 	}	
 }
 
+- (void)handleGestureWithEvent:(NSEvent *)event {
+
+	if( dispatchEvents_ ) {
+		tListEntry *entry, *tmp;
+		
+		NSView* view = (NSView*)cocos2d::CCEGLView::sharedOpenGLView()->viewHandle();
+
+		NSSet* beginTouches = [event touchesMatchingPhase:NSTouchPhaseBegan inView: view];
+		if ([beginTouches count] > 0) {
+			DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
+				
+				if (entry->flags & kCCImplementsTouchesBegan) {
+					void *swallows = [entry->delegate performSelector:@selector(ccTouchesBeganWithEvent:) withObject:event];
+					if( swallows )
+						break;
+				}
+			}
+		}
+
+		NSSet* moveTouches = [event touchesMatchingPhase:NSTouchPhaseMoved inView: view];
+		if ([moveTouches count] > 0) {
+			DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
+				
+				if (entry->flags & kCCImplementsTouchesMoved) {
+					void *swallows = [entry->delegate performSelector:@selector(ccTouchesMovedWithEvent:) withObject:event];
+					if( swallows )
+						break;
+				}
+			}
+		}
+
+		NSSet* endTouches = [event touchesMatchingPhase:NSTouchPhaseEnded inView: view];
+		if ([endTouches count] > 0) {
+			DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
+				
+				if (entry->flags & kCCImplementsTouchesEnded) {
+					void *swallows = [entry->delegate performSelector:@selector(ccTouchesEndedWithEvent:) withObject:event];
+					if( swallows )
+						break;
+				}
+			}
+		}
+
+		NSSet* cancelTouches = [event touchesMatchingPhase:NSTouchPhaseCancelled inView: view];
+		if ([cancelTouches count] > 0) {
+			DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
+				
+				if (entry->flags & kCCImplementsTouchesCancelled) {
+					void *swallows = [entry->delegate performSelector:@selector(ccTouchesCancelledWithEvent:) withObject:event];
+					if( swallows )
+						break;
+				}
+			}
+		}
+		
+	}
+}
+
+- (void)beginGestureWithEvent:(NSEvent *)event {
+	[self handleGestureWithEvent:event];
+}
+
+- (void)endGestureWithEvent:(NSEvent *)event {
+	[self handleGestureWithEvent:event];
+}
+
+- (void)magnifyWithEvent:(NSEvent *)event {
+	[self handleGestureWithEvent:event];
+}
+
+- (void)rotateWithEvent:(NSEvent *)event {
+	[self handleGestureWithEvent:event];
+}
+
+- (void)swipeWithEvent:(NSEvent *)event {
+	[self handleGestureWithEvent:event];
+}
 
 #pragma mark CCEventDispatcher - queue events
 
