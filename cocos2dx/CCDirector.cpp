@@ -257,6 +257,8 @@ void CCDirector::drawScene(void)
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	CHECK_GL_ERROR_DEBUG();
+
 
     /* to avoid flickr, nextScene MUST be here: after tick and before draw.
      XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */

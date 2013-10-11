@@ -63,8 +63,8 @@ static EAGLView *view;
 {
     NSOpenGLPixelFormatAttribute attribs[] =
     {
-//		NSOpenGLPFAAccelerated,
-//		NSOpenGLPFANoRecovery,
+		NSOpenGLPFAAccelerated,
+		NSOpenGLPFANoRecovery,
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFADepthSize, 24,
 		
@@ -246,7 +246,7 @@ static EAGLView *view;
 
 
         // Get screen size
-        NSRect displayRect = [[NSScreen mainScreen] frame];
+        NSRect displayRect = [[[NSScreen screens] lastObject] frame];
 
         // Create a screen-sized window on the display you want to take over
         fullScreenWindow_ = [[CCWindow alloc] initWithFrame:displayRect fullscreen:YES];
