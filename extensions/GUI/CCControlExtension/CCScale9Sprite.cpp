@@ -410,7 +410,9 @@ void CCScale9Sprite::updatePositions()
         return;
     }
 
-    CCSize size = this->m_obContentSize;
+	const float globalScale = (m_bSpriteFrameRotated ? 1.0f : CC_CONTENT_SCALE_FACTOR());
+	
+    CCSize size = this->m_obContentSize / globalScale;
 
     float sizableWidth = size.width - _topLeft->getContentSize().width - _topRight->getContentSize().width;
     float sizableHeight = size.height - _topLeft->getContentSize().height - _bottomRight->getContentSize().height;
@@ -418,14 +420,14 @@ void CCScale9Sprite::updatePositions()
     float horizontalScale = sizableWidth/_centre->getContentSize().width;
     float verticalScale = sizableHeight/_centre->getContentSize().height;
 
-    _centre->setScaleX(horizontalScale);
-    _centre->setScaleY(verticalScale);
+    _centre->setScaleX(horizontalScale * globalScale);
+    _centre->setScaleY(verticalScale * globalScale);
 
-    float rescaledWidth = _centre->getContentSize().width * horizontalScale;
-    float rescaledHeight = _centre->getContentSize().height * verticalScale;
+    float rescaledWidth = _centre->getContentSize().width * horizontalScale * globalScale;
+    float rescaledHeight = _centre->getContentSize().height * verticalScale * globalScale;
 
-    float leftWidth = _bottomLeft->getContentSize().width;
-    float bottomHeight = _bottomLeft->getContentSize().height;
+    float leftWidth = _bottomLeft->getContentSize().width * globalScale;
+    float bottomHeight = _bottomLeft->getContentSize().height * globalScale;
 
     _bottomLeft->setAnchorPoint(ccp(0,0));
     _bottomRight->setAnchorPoint(ccp(0,0));
@@ -439,19 +441,27 @@ void CCScale9Sprite::updatePositions()
 
     // Position corners
     _bottomLeft->setPosition(ccp(0,0));
+	_bottomLeft->setScale(globalScale);
     _bottomRight->setPosition(ccp(leftWidth+rescaledWidth,0));
+	_bottomRight->setScale(globalScale);
     _topLeft->setPosition(ccp(0, bottomHeight+rescaledHeight));
+	_topLeft->setScale(globalScale);
     _topRight->setPosition(ccp(leftWidth+rescaledWidth, bottomHeight+rescaledHeight));
+	_topRight->setScale(globalScale);
 
     // Scale and position borders
     _left->setPosition(ccp(0, bottomHeight));
-    _left->setScaleY(verticalScale);
+    _left->setScaleY(verticalScale * globalScale);
+    _left->setScaleX(globalScale);
     _right->setPosition(ccp(leftWidth+rescaledWidth,bottomHeight));
-    _right->setScaleY(verticalScale);
+    _right->setScaleY(verticalScale * globalScale);
+    _right->setScaleX(globalScale);
     _bottom->setPosition(ccp(leftWidth,0));
-    _bottom->setScaleX(horizontalScale);
+    _bottom->setScaleX(horizontalScale * globalScale);
+    _bottom->setScaleY(globalScale);
     _top->setPosition(ccp(leftWidth,bottomHeight+rescaledHeight));
-    _top->setScaleX(horizontalScale);
+    _top->setScaleX(horizontalScale * globalScale);
+    _top->setScaleY(globalScale);
 
     // Position centre
     _centre->setPosition(ccp(leftWidth, bottomHeight));
