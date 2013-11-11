@@ -297,7 +297,8 @@ CCSprite* CCSprite::initWithCGImage(CGImageRef pImage, const char *pszKey)
 
 CCSprite::CCSprite(void)
 : m_bShouldBeHidden(false),
-m_pobTexture(NULL)
+m_pobTexture(NULL),
+m_pobTextureAtlas(NULL)
 {
 }
 
@@ -905,7 +906,7 @@ void CCSprite::updateColor(void)
     // renders using batch node
     if (m_pobBatchNode)
     {
-        if (m_uAtlasIndex != CCSpriteIndexNotInitialized)
+        if (m_pobTextureAtlas && m_uAtlasIndex != CCSpriteIndexNotInitialized)
         {
             m_pobTextureAtlas->updateQuad(&m_sQuad, m_uAtlasIndex);
         }
