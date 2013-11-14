@@ -184,7 +184,7 @@ void CCControlPicker::update(float delta)
         return;
 	}
     
-    if (velocity.y <= 30.0f * CC_CONTENT_SCALE_FACTOR() && velocity.y >= -30.0f * CC_CONTENT_SCALE_FACTOR())
+    if (velocity.y <= cacheRowSize.height && velocity.y >= -cacheRowSize.height)
     {
         decelerating           = false;
         
@@ -313,7 +313,7 @@ void CCControlPicker::updateVisibleRows() {
 	CCPoint center      = ccp (0.0f, getContentSize().height + cacheRowSize.height / 2.0f);
 	unsigned int firstRow = rowNumberAtLocation(ccpAdd(rowsLayer->getPosition(), ccpSub(CCPointZero, center)));
 
-	const int visibleRowCount = ceilf(getContentSize().height / cacheRowSize.height) + 3;
+	const int visibleRowCount = ceilf(getContentSize().height / cacheRowSize.height) + 4;
 
     center      = ccp (getContentSize().width / 2, getContentSize().height /2);
 	
@@ -341,8 +341,8 @@ void CCControlPicker::updateVisibleRows() {
 					row->fitRowInSize(cacheRowSize);
 					row->setAnchorPoint( ccp(0.5f, 0.5f) );
 					row->setPosition( position );
+					rowInfo._rowNode = row;
 				}
-				rowInfo._rowNode = row;
 			}
 		} else {
 			if (rowInfo._rowNode) {
@@ -371,6 +371,14 @@ void CCControlPicker::needsLayoutWithRowCount(unsigned int rowCount)
     }
     
 	const int visibleRowCount = ceilf(getContentSize().height / cacheRowSize.height) + 2;
+	
+    for (unsigned int i = 0; i < _rowLayout.size(); ++i) {
+		RowInfos& rowInfo = _rowLayout[i];
+		if (rowInfo._rowNode) {
+			_availableRows->addObject( rowInfo._rowNode );
+			rowsLayer->removeChild(rowInfo._rowNode, true);
+		}
+	}
 	
 	_rowLayout.clear();
 	rowsLayer->removeAllChildrenWithCleanup(true);
@@ -454,14 +462,13 @@ unsigned int CCControlPicker::rowNumberAtLocation(CCPoint location)
             return cachedRowCount - 1;
         else
         {
-            unsigned int row  = round(location.y / cacheRowSize.height);
+            unsigned int row  = floorf(location.y / cacheRowSize.height);
             if (row == cachedRowCount)
                 row         = 0;
             
             return row;
         }
-    } else
-    {
+    } else {
         if (location.x < limitBounds.origin.x)
             return cachedRowCount - 1;
         else if (location.x >= limitBounds.size.width)
@@ -640,9 +647,9 @@ void CCControlPicker::updateMoveWithActionLocation(CCPoint location)
         CCLOG("error in gettimeofday");
     }
 
-    double delta_time       = (now.tv_usec - previousDate) / 10000000.0f;
+    double delta_time       = (now.tv_usec - previousDate) / 100.0;
     CCPoint delta_position  = ccpSub(location, previousLocation);
-    velocity               = ccp(delta_position.x / delta_time, delta_position.y / delta_time);
+    velocity               = ccp(delta_position.x * delta_time, delta_position.y * delta_time);
 	CCAssert(!isinf(velocity.x) && !isinf(velocity.y), "error velocity");
     
     // Update the previous location and date
@@ -688,7 +695,7 @@ void CCControlPicker::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 void CCControlPicker::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
     CCPoint touchLocation   = pTouch->getLocation();
-    touchLocation           = CCDirector::sharedDirector()->convertToGL(touchLocation);
+//    touchLocation           = CCDirector::sharedDirector()->convertToGL(touchLocation);
     CCPoint localTouchLocation           = convertToNodeSpace(pTouch->getLocation());
     touchLocation           = getParent()->convertToNodeSpace(touchLocation);
     
@@ -699,7 +706,7 @@ void CCControlPicker::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 		unsigned int nhighlightRow = rowNumberAtLocation(touchPos);
 		selectRow(nhighlightRow, true, true);
 	} else {
-		endMoveWithActionLocation(touchLocation);		
+		endMoveWithActionLocation(touchLocation);
 	}
 }
 

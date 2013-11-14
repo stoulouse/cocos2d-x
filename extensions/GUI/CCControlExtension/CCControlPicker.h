@@ -201,7 +201,7 @@ public:
 	CC_SYNTHESIZE(CCPoint, previousLocation, PreviousLocation);
 	CC_SYNTHESIZE(CCPoint, velocity, Velocity);
 	CC_SYNTHESIZE(CCRect, limitBounds, LimitBounds);
-	CC_SYNTHESIZE(float, previousDate, PreviousDate);
+	CC_SYNTHESIZE(int, previousDate, PreviousDate);
 	CC_SYNTHESIZE(unsigned int, highlightRow, HighlightRow);
 	// Picker
 	CC_SYNTHESIZE(CCLayer*, rowsLayer, RowsLayer);

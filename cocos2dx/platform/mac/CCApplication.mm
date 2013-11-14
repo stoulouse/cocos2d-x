@@ -127,6 +127,18 @@ ccLanguageType CCApplication::getCurrentLanguage()
     {
         ret = kLanguageArabic;
     }
+    else if ([languageCode isEqualToString:@"hi"])
+    {
+        ret = kLanguageHindi;
+    }
+    else if ([languageCode isEqualToString:@"kn"])
+    {
+        ret = kLanguageKannada;
+    }
+    else if ([languageCode isEqualToString:@"gu"])
+    {
+        ret = kLanguageGujarati;
+    }
     
     return ret;
 }
