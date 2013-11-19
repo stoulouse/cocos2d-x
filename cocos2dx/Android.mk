@@ -127,6 +127,7 @@ support/component/CCComponent.cpp \
 support/component/CCComponentContainer.cpp \
 text_input_node/CCIMEDispatcher.cpp \
 text_input_node/CCTextFieldTTF.cpp \
+text_input_node/CCKeyboardConfig.cpp \
 textures/CCTexture2D.cpp \
 textures/CCTextureAtlas.cpp \
 textures/CCTextureCache.cpp \

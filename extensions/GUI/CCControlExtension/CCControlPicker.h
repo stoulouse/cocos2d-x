@@ -414,7 +414,7 @@ public:
 class CCControlPickerDelegate {
 public:
 	
-#pragma mark Setting the Dimensions of the Control Picker's row
+#pragma mark Setting the Dimensions of the Control Picker row
 	/** @name Setting the Dimensions of the Control Picker's row */
 	
 	/**

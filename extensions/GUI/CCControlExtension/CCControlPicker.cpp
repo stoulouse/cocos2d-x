@@ -24,7 +24,7 @@
  *
  */
 
-#import "CCControlPicker.h"
+#include "CCControlPicker.h"
 
 USING_NS_CC_EXT;
 
