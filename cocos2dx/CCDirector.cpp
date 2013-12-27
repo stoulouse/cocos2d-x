@@ -797,7 +797,7 @@ void CCDirector::pause(void)
     m_dOldAnimationInterval = m_dAnimationInterval;
 
     // when paused, don't consume CPU
-    setAnimationInterval(1 / 4.0);
+    setAnimationInterval(0.0);
     m_bPaused = true;
 }
 

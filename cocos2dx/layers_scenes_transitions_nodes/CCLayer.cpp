@@ -633,6 +633,12 @@ void CCLayerRGBA::setCascadeColorEnabled(bool cascadeColorEnabled)
 
 CCLayerColor::CCLayerColor()
 {
+	for (int i = 0; i < sizeof(m_pSquareColors) / sizeof(m_pSquareColors[0]); ++i) {
+		m_pSquareColors[i] = ccc4f(0,0,0,0);
+	}
+	for (int i = 0; i < sizeof(m_pSquareVertices) / sizeof(m_pSquareVertices[0]); ++i) {
+		m_pSquareVertices[i] = vertex2(0,0);
+	}
     // default blend function
     m_tBlendFunc.src = CC_BLEND_SRC;
     m_tBlendFunc.dst = CC_BLEND_DST;

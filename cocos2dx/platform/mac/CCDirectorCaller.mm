@@ -206,16 +206,18 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	self.interval = 60.0 * intervalNew;
 	[renderTimer invalidate];
 	renderTimer = nil;
-	renderTimer = [NSTimer timerWithTimeInterval:self.interval/60.0f   //a 1ms time interval
-										  target:self
-										selector:@selector(timerFired:)
-										userInfo:nil
-										 repeats:YES];
-	
-	[[NSRunLoop currentRunLoop] addTimer:renderTimer 
-								 forMode:NSDefaultRunLoopMode];
-	[[NSRunLoop currentRunLoop] addTimer:renderTimer 
-								 forMode:NSEventTrackingRunLoopMode];
+	if (intervalNew != 0) {
+		renderTimer = [NSTimer timerWithTimeInterval:self.interval/60.0f   //a 1ms time interval
+											  target:self
+											selector:@selector(timerFired:)
+											userInfo:nil
+											 repeats:YES];
+		
+		[[NSRunLoop currentRunLoop] addTimer:renderTimer
+									 forMode:NSDefaultRunLoopMode];
+		[[NSRunLoop currentRunLoop] addTimer:renderTimer
+									 forMode:NSEventTrackingRunLoopMode];
+	}
 }
 
 -(void) doCaller: (id) sender
