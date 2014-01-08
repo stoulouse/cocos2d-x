@@ -444,7 +444,7 @@ void CCControlPicker::needsLayoutWithRowCount(unsigned int rowCount)
                                  0,
                                  cacheRowSize.height * (cachedRowCount - 1));
     
-    selectRow(0, false, false);
+//    selectRow(0, false, false);
 }
 
 bool CCControlPicker::isValueOutOfMinBoundMaxBound(double value, double min, double max)
@@ -548,8 +548,9 @@ double CCControlPicker::adjustTranslationForAxisValueUsingMinBoundMaxBound(doubl
 
 void CCControlPicker::setContentSize(const CCSize & size)
 {
+	CCSize s = getContentSize();
 	superClass::setContentSize(size);
-	if (size.equals( CCSizeZero ))
+	if (size.equals( CCSizeZero ) || s.equals(size))
 		return;
 
 	CCPoint center                      = ccp (size.width / 2, size.height /2);
@@ -647,9 +648,15 @@ void CCControlPicker::updateMoveWithActionLocation(CCPoint location)
         CCLOG("error in gettimeofday");
     }
 
-    double delta_time       = (now.tv_usec - previousDate) / 100.0;
+    double delta_time       = (now.tv_usec - previousDate) / 1000.0 / 1000.0;
     CCPoint delta_position  = ccpSub(location, previousLocation);
-    velocity               = ccp(delta_position.x * delta_time, delta_position.y * delta_time);
+    velocity               = ccp(delta_position.x / delta_time, delta_position.y / delta_time);
+	if (fabsf(velocity.x) > 1000.0f)
+		velocity.x = 0.0f;
+	if (fabsf(velocity.y) > 1000.0f)
+		velocity.y = 0.0f;
+	
+	CCLOG("delta_time: %f delta_position: %f velocity: %f", delta_time, delta_position.y, velocity.y);
 	CCAssert(!isinf(velocity.x) && !isinf(velocity.y), "error velocity");
     
     // Update the previous location and date
