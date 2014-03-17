@@ -502,7 +502,7 @@ bool CCImage::initWithImageData(void * pData,
         }
         else if (eFmt == kFmtWebp)
         {
-            bRet = _initWithWebpData(pData, nDataLen);
+//            bRet = _initWithWebpData(pData, nDataLen);
         }
         else // init with png or jpg file data
         {

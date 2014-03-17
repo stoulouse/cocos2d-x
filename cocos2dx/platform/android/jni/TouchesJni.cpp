@@ -34,17 +34,17 @@ THE SOFTWARE.
 using namespace cocos2d;
 
 extern "C" {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesBegin(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y, jint tapcount) {
-        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesBegin(1, &id, &x, &y, &tapcount);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesBegin(JNIEnv * env, jobject thiz, jlong id, jfloat x, jfloat y, jint tapcount) {
+        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesBegin(1, (intptr_t*)&id, &x, &y, &tapcount);
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesEnd(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y, jint tapcount) {
-        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesEnd(1, &id, &x, &y, &tapcount);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesEnd(JNIEnv * env, jobject thiz, jlong id, jfloat x, jfloat y, jint tapcount) {
+        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesEnd(1, (intptr_t*)&id, &x, &y, &tapcount);
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesMove(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys, jintArray tapcounts) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesMove(JNIEnv * env, jobject thiz, jlongArray ids, jfloatArray xs, jfloatArray ys, jintArray tapcounts) {
         int size = env->GetArrayLength(ids);
-        jint id[size];
+        intptr_t id[size];
         jfloat x[size];
         jfloat y[size];
 		jint tapcount[size];
@@ -57,9 +57,9 @@ extern "C" {
         cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesMove(size, id, x, y, tapcount);
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesCancel(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys, jintArray tapcounts) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesCancel(JNIEnv * env, jobject thiz, jlongArray ids, jfloatArray xs, jfloatArray ys, jintArray tapcounts) {
         int size = env->GetArrayLength(ids);
-        jint id[size];
+        intptr_t id[size];
         jfloat x[size];
         jfloat y[size];
 		jint tapcount[size];

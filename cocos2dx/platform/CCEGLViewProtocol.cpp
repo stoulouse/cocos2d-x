@@ -194,7 +194,7 @@ const char* CCEGLViewProtocol::getViewName()
     return m_szViewName;
 }
 
-void CCEGLViewProtocol::handleTouchesBegin(int num, int ids[], float xs[], float ys[], int tapcounts[])
+void CCEGLViewProtocol::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[])
 {
     CCSet set;
     for (int i = 0; i < num; ++i)
@@ -240,7 +240,7 @@ void CCEGLViewProtocol::handleTouchesBegin(int num, int ids[], float xs[], float
     m_pDelegate->touchesBegan(&set, NULL);
 }
 
-void CCEGLViewProtocol::handleTouchesMove(int num, int ids[], float xs[], float ys[], int tapcounts[])
+void CCEGLViewProtocol::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[])
 {
     CCSet set;
     for (int i = 0; i < num; ++i)
@@ -282,7 +282,7 @@ void CCEGLViewProtocol::handleTouchesMove(int num, int ids[], float xs[], float 
     m_pDelegate->touchesMoved(&set, NULL);
 }
 
-void CCEGLViewProtocol::getSetOfTouchesEndOrCancel(CCSet& set, int num, int ids[], float xs[], float ys[], int tapcounts[])
+void CCEGLViewProtocol::getSetOfTouchesEndOrCancel(CCSet& set, int num, intptr_t ids[], float xs[], float ys[], int tapcounts[])
 {
     for (int i = 0; i < num; ++i)
     {
@@ -330,14 +330,14 @@ void CCEGLViewProtocol::getSetOfTouchesEndOrCancel(CCSet& set, int num, int ids[
     }
 }
 
-void CCEGLViewProtocol::handleTouchesEnd(int num, int ids[], float xs[], float ys[], int tapcounts[])
+void CCEGLViewProtocol::handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[])
 {
     CCSet set;
     getSetOfTouchesEndOrCancel(set, num, ids, xs, ys, tapcounts);
     m_pDelegate->touchesEnded(&set, NULL);
 }
 
-void CCEGLViewProtocol::handleTouchesCancel(int num, int ids[], float xs[], float ys[], int tapcounts[])
+void CCEGLViewProtocol::handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[])
 {
     CCSet set;
     getSetOfTouchesEndOrCancel(set, num, ids, xs, ys, tapcounts);

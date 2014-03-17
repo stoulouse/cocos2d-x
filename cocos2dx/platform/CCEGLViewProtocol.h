@@ -152,19 +152,19 @@ public:
     /** Touch events are handled by default; if you want to customize your handlers, please override these functions: 
      * @lua NA
      */
-    virtual void handleTouchesBegin(int num, int ids[], float xs[], float ys[], int tapcounts[]);
+    virtual void handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[]);
     /**
      * @lua NA
      */
-    virtual void handleTouchesMove(int num, int ids[], float xs[], float ys[], int tapcounts[]);
+    virtual void handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[]);
     /**
      * @lua NA
      */
-    virtual void handleTouchesEnd(int num, int ids[], float xs[], float ys[], int tapcounts[]);
+    virtual void handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[]);
     /**
      * @lua NA
      */
-    virtual void handleTouchesCancel(int num, int ids[], float xs[], float ys[], int tapcounts[]);
+    virtual void handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[], int tapcounts[]);
 
     /**
      * Get the opengl view port rectangle.
@@ -181,7 +181,7 @@ public:
      */
     float getScaleY() const;
 private:
-    void getSetOfTouchesEndOrCancel(CCSet& set, int num, int ids[], float xs[], float ys[], int tapcounts[]);
+    void getSetOfTouchesEndOrCancel(CCSet& set, int num, intptr_t ids[], float xs[], float ys[], int tapcounts[]);
 
 protected:
     EGLTouchDelegate* m_pDelegate;

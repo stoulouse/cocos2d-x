@@ -183,7 +183,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	public boolean onTouchEvent(final MotionEvent pMotionEvent) {
 		// these data are used in ACTION_MOVE and ACTION_CANCEL
 		final int pointerNumber = pMotionEvent.getPointerCount();
-		final int[] ids = new int[pointerNumber];
+		final long[] ids = new long[pointerNumber];
 		final float[] xs = new float[pointerNumber];
 		final float[] ys = new float[pointerNumber];
     	final int[] tapcounts = new int[pointerNumber];
@@ -198,7 +198,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 		switch (pMotionEvent.getAction() & MotionEvent.ACTION_MASK) {
 			case MotionEvent.ACTION_POINTER_DOWN:
 				final int indexPointerDown = pMotionEvent.getAction() >> MotionEvent.ACTION_POINTER_ID_SHIFT;
-				final int idPointerDown = pMotionEvent.getPointerId(indexPointerDown);
+				final long idPointerDown = pMotionEvent.getPointerId(indexPointerDown);
 				final float xPointerDown = pMotionEvent.getX(indexPointerDown);
 				final float yPointerDown = pMotionEvent.getY(indexPointerDown);
 
@@ -212,7 +212,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 
 			case MotionEvent.ACTION_DOWN:
 				// there are only one finger on the screen
-				final int idDown = pMotionEvent.getPointerId(0);
+				final long idDown = pMotionEvent.getPointerId(0);
 				final float xDown = xs[0];
 				final float yDown = ys[0];
 
@@ -235,7 +235,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 
 			case MotionEvent.ACTION_POINTER_UP:
 				final int indexPointUp = pMotionEvent.getAction() >> MotionEvent.ACTION_POINTER_ID_SHIFT;
-				final int idPointerUp = pMotionEvent.getPointerId(indexPointUp);
+				final long idPointerUp = pMotionEvent.getPointerId(indexPointUp);
 				final float xPointerUp = pMotionEvent.getX(indexPointUp);
 				final float yPointerUp = pMotionEvent.getY(indexPointUp);
 
@@ -249,7 +249,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 
 			case MotionEvent.ACTION_UP:
 				// there are only one finger on the screen
-				final int idUp = pMotionEvent.getPointerId(0);
+				final long idUp = pMotionEvent.getPointerId(0);
 				final float xUp = xs[0];
 				final float yUp = ys[0];
 
