@@ -44,32 +44,32 @@ extern "C" {
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesMove(JNIEnv * env, jobject thiz, jlongArray ids, jfloatArray xs, jfloatArray ys, jintArray tapcounts) {
         int size = env->GetArrayLength(ids);
-        intptr_t id[size];
+        jlong id[size];
         jfloat x[size];
         jfloat y[size];
 		jint tapcount[size];
 
-        env->GetIntArrayRegion(ids, 0, size, id);
+        env->GetLongArrayRegion(ids, 0, size, id);
         env->GetFloatArrayRegion(xs, 0, size, x);
         env->GetFloatArrayRegion(ys, 0, size, y);
 		env->GetIntArrayRegion(tapcounts, 0, size, tapcount);
 
-        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesMove(size, id, x, y, tapcount);
+        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesMove(size, (intptr_t*)id, x, y, tapcount);
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesCancel(JNIEnv * env, jobject thiz, jlongArray ids, jfloatArray xs, jfloatArray ys, jintArray tapcounts) {
         int size = env->GetArrayLength(ids);
-        intptr_t id[size];
+        jlong id[size];
         jfloat x[size];
         jfloat y[size];
 		jint tapcount[size];
 
-        env->GetIntArrayRegion(ids, 0, size, id);
+        env->GetLongArrayRegion(ids, 0, size, id);
         env->GetFloatArrayRegion(xs, 0, size, x);
         env->GetFloatArrayRegion(ys, 0, size, y);
 		env->GetIntArrayRegion(tapcounts, 0, size, tapcount);
 
-        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesCancel(size, id, x, y, tapcount);
+        cocos2d::CCDirector::sharedDirector()->getOpenGLView()->handleTouchesCancel(size, (intptr_t*)id, x, y, tapcount);
     }
 
     #define KEYCODE_BACK 0x04
