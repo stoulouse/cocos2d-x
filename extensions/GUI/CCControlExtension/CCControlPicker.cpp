@@ -28,7 +28,8 @@
 
 USING_NS_CC_EXT;
 
-#define CCControlPickerFriction         0.70f   // Between 0 and 1
+#define CCControlPickerMaxVelocity         10000.0f   //
+#define CCControlPickerFriction         0.90f   // Between 0 and 1
 #define CCControlPickerDefaultRowWidth  35 * CC_CONTENT_SCALE_FACTOR()      // px
 #define CCControlPickerDefaultRowHeight 35 * CC_CONTENT_SCALE_FACTOR()      // px
 
@@ -261,7 +262,7 @@ void CCControlPicker::selectRow(unsigned int row, bool animated, bool sendCallba
         dest.y  = cacheRowSize.height * row;
     else
         dest.x  = cacheRowSize.width * row;
-
+	
     _selectedRow = row;
     
     // Send events
@@ -342,6 +343,8 @@ void CCControlPicker::updateVisibleRows() {
 					row->setAnchorPoint( ccp(0.5f, 0.5f) );
 					row->setPosition( position );
 					rowInfo._rowNode = row;
+					if (i == _selectedRow)
+						row->rowDidHighlighted();
 				}
 			}
 		} else {
@@ -462,7 +465,7 @@ unsigned int CCControlPicker::rowNumberAtLocation(CCPoint location)
             return cachedRowCount - 1;
         else
         {
-            unsigned int row  = floorf(location.y / cacheRowSize.height);
+            unsigned int row  = floorf((location.y + cacheRowSize.height / 2.0f) / cacheRowSize.height);
             if (row == cachedRowCount)
                 row         = 0;
             
@@ -475,7 +478,7 @@ unsigned int CCControlPicker::rowNumberAtLocation(CCPoint location)
             return 0;
         else
         {
-            unsigned int row  = round(fabsf(location.x) / cacheRowSize.width);
+            unsigned int row  = round((fabsf(location.x) + cacheRowSize.height / 2.0f) / cacheRowSize.width);
             if (row == cachedRowCount)
                 row         = 0;
             
@@ -587,7 +590,7 @@ void CCControlPicker::sendSelectedRowCallback()
 
 void CCControlPicker::sendPickerRowEventForPosition(CCPoint location)
 {
-    unsigned int nhighlightRow = rowNumberAtLocation(rowsLayer->getPosition());
+    unsigned int nhighlightRow = rowNumberAtLocation(location);
     
     if (highlightRow != nhighlightRow)
     {
@@ -651,12 +654,12 @@ void CCControlPicker::updateMoveWithActionLocation(CCPoint location)
     double delta_time       = (now.tv_usec - previousDate) / 1000.0 / 1000.0;
     CCPoint delta_position  = ccpSub(location, previousLocation);
     velocity               = ccp(delta_position.x / delta_time, delta_position.y / delta_time);
-	if (fabsf(velocity.x) > 1000.0f)
-		velocity.x = 0.0f;
-	if (fabsf(velocity.y) > 1000.0f)
-		velocity.y = 0.0f;
+	if (fabsf(velocity.x) > CCControlPickerMaxVelocity)
+		velocity.x = copysign(CCControlPickerMaxVelocity, velocity.x);
+	if (fabsf(velocity.y) > CCControlPickerMaxVelocity)
+		velocity.y = copysign(CCControlPickerMaxVelocity, velocity.y);
 	
-	CCLOG("delta_time: %f delta_position: %f velocity: %f", delta_time, delta_position.y, velocity.y);
+//	CCLOG("delta_time: %f delta_position: %f velocity: %f", delta_time, delta_position.y, velocity.y);
 	CCAssert(!isinf(velocity.x) && !isinf(velocity.y), "error velocity");
     
     // Update the previous location and date
@@ -706,15 +709,15 @@ void CCControlPicker::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
     CCPoint localTouchLocation           = convertToNodeSpace(pTouch->getLocation());
     touchLocation           = getParent()->convertToNodeSpace(touchLocation);
     
-	if (pTouch->getTapCount() == 1) {
-		CCPoint center      = ccp (0.0f, getContentSize().height - cacheRowSize.height / 2.0f);
-		
-		CCPoint touchPos = CCPointMake(rowsLayer->getPosition().x + getContentSize().width / 2.0f, rowsLayer->getPosition().y - (localTouchLocation.y - getContentSize().height / 2.0f));
-		unsigned int nhighlightRow = rowNumberAtLocation(touchPos);
-		selectRow(nhighlightRow, true, true);
-	} else {
+//	if (pTouch->getTapCount() == 1) {
+//		CCPoint center      = ccp (0.0f, getContentSize().height - cacheRowSize.height / 2.0f);
+//		
+//		CCPoint touchPos = CCPointMake(rowsLayer->getPosition().x + getContentSize().width / 2.0f, rowsLayer->getPosition().y - (localTouchLocation.y - getContentSize().height / 2.0f));
+//		unsigned int nhighlightRow = rowNumberAtLocation(touchPos);
+//		selectRow(nhighlightRow, true, true);
+//	} else {
 		endMoveWithActionLocation(touchLocation);
-	}
+//	}
 }
 
 void CCControlPicker::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
