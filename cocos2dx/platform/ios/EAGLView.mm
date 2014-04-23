@@ -251,6 +251,7 @@ static EAGLView *view = 0;
 {
     [renderer_ release];
     self.keyboardShowNotification = NULL; // implicit release
+	view = 0;
     [super dealloc];
 }
 

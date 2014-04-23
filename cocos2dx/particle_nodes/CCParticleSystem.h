@@ -411,15 +411,15 @@ public:
     //! Initializes a system with a fixed number of particles
     virtual bool initWithTotalParticles(unsigned int numberOfParticles);
     //! Add a particle to the emitter
-    bool addParticle();
+    virtual bool addParticle();
     //! Initializes a particle
-    void initParticle(tCCParticle* particle);
+    virtual void initParticle(tCCParticle* particle);
     //! stop emitting particles. Running particles will continue to run until they die
-    void stopSystem();
+    virtual void stopSystem();
     //! Kill all living particles.
-    void resetSystem();
+    virtual void resetSystem();
     //! whether or not the system is full
-    bool isFull();
+    virtual bool isFull();
 
     //! should be overridden by subclasses
     virtual void updateQuadWithParticle(tCCParticle* particle, const CCPoint& newPosition);

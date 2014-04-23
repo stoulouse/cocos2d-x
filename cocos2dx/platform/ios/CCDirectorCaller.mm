@@ -50,8 +50,11 @@ static id s_sharedDirectorCaller;
 
 +(void) destroy
 {
-    [s_sharedDirectorCaller release];
-    s_sharedDirectorCaller = nil;
+	if (((CCDirectorCaller*)s_sharedDirectorCaller)->displayLink) {
+		[((CCDirectorCaller*)s_sharedDirectorCaller)->displayLink invalidate];
+		((CCDirectorCaller*)s_sharedDirectorCaller)->displayLink = nil;
+	}
+	[s_sharedDirectorCaller release];
 }
 
 -(void) alloc
@@ -62,6 +65,7 @@ static id s_sharedDirectorCaller;
 -(void) dealloc
 {
     [displayLink release];
+    s_sharedDirectorCaller = nil;
     [super dealloc];
 }
 

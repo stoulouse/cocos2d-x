@@ -73,6 +73,7 @@ class CCActionManager;
 class CCTouchDispatcher;
 class CCKeypadDispatcher;
 class CCAccelerometer;
+class CCDisplayLinkDirector;
 
 /**
 @brief Class that creates and handle the main Window and manages how
@@ -361,6 +362,9 @@ public:
      *  @js getInstance
      */
     static CCDirector* sharedDirector(void);
+
+	static void setSharedDirector(CCDisplayLinkDirector* sharedDirector);
+	static bool sharedDirectorExists(void);
 
 protected:
 

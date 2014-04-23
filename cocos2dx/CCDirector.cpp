@@ -89,6 +89,18 @@ static CCDisplayLinkDirector *s_SharedDirector = NULL;
 #define kDefaultFPS        60  // 60 frames per second
 extern const char* cocos2dVersion(void);
 
+void CCDirector::setSharedDirector(CCDisplayLinkDirector* sharedDirector) {
+	if (s_SharedDirector) {
+		delete s_SharedDirector;
+		s_SharedDirector = 0;
+	}
+	s_SharedDirector = sharedDirector;
+}
+
+bool CCDirector::sharedDirectorExists(void) {
+	return s_SharedDirector != 0;
+}
+
 CCDirector* CCDirector::sharedDirector(void)
 {
     if (!s_SharedDirector)
@@ -1071,8 +1083,8 @@ void CCDisplayLinkDirector::mainLoop(void)
     {
         m_bPurgeDirecotorInNextLoop = false;
         purgeDirector();
-		delete this;
-		s_SharedDirector = 0;
+//		delete this;
+//		s_SharedDirector = 0;
     }
     else if (! m_bInvalid)
      {
