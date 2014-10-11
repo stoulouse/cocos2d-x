@@ -352,7 +352,6 @@ void CCUserDefault::setDoubleForKey(const char* pKey, double value)
 
 void CCUserDefault::setStringForKey(const char* pKey, const std::string & value)
 {
-	xxx
     // check key
     if (! pKey)
     {
